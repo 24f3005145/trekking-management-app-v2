@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+venv/
+env/
+.venv/
+
+# Flask
+instance/
+*.sqlite3
+*.db
+
+# Vue
+node_modules/
+dist/
+
+# VS Code
+.vscode/
+
+# Environment variables
+.env
+
+# Redis
+dump.rdb
+
+# OS files
+.DS_Store
+Thumbs.db
