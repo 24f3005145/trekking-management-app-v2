@@ -29,9 +29,9 @@ with app.app_context():
         admin = User(
             name="Admin",
             email="admin@tma.com",
-            password="admin123",
             role_id=admin_role.id
         )
+        admin.set_password("admin123")
 
         db.session.add(admin)
         db.session.commit()
