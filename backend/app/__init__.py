@@ -2,6 +2,8 @@ from flask import Flask
 from app.config import Config
 from app.extensions import db, migrate, jwt
 from app import models
+from app.celery_app import make_celery
+from flask_cors import CORS
 
 from app.routes.auth import auth_bp
 from app.routes.dashboard import dashboard_bp
@@ -14,6 +16,8 @@ def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
 
+    CORS(app, resources={r"/api/*": {"origins": "http://localhost:5173"}})
+
     db.init_app(app)
     migrate.init_app(app, db)
     jwt.init_app(app)
@@ -23,5 +27,7 @@ def create_app():
     app.register_blueprint(admin_bp, url_prefix="/api/admin")
     app.register_blueprint(user_bp, url_prefix="/api/user")
     app.register_blueprint(staff_bp, url_prefix="/api/staff")
+
+    app.celery = make_celery(app)
 
     return app
