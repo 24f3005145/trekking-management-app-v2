@@ -24,17 +24,13 @@ class User(db.Model):
         default=datetime.utcnow
     )
 
-    bookings = db.relationship(
-        "Booking",
-        backref="user",
-        lazy=True
-    )
-
     assigned_treks = db.relationship(
         "Trek",
         backref="staff",
         lazy=True
     )
+
+    bookings = db.relationship("Booking", back_populates="user", cascade="all, delete-orphan")
 
     def set_password(self, password):
         self.password = generate_password_hash(password)

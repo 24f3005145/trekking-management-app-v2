@@ -3,6 +3,8 @@ from app.extensions import db
 from app.models.trek import Trek
 from app.utils.decorators import role_required
 
+
+from app.models.booking import Booking
 from app.models.user import User
 from app.models.role import Role
 
@@ -32,7 +34,8 @@ def create_trek():
 @role_required("Admin")
 def get_treks():
 
-    treks = Trek.query.all()
+    #treks = Trek.query.order_by(Trek.id.desc()).limit(5).all()
+    treks = Trek.query.order_by(Trek.id.desc()).all()
 
     result = []
 
@@ -44,7 +47,40 @@ def get_treks():
             "difficulty": t.difficulty,
             "duration": t.duration,
             "slots": t.available_slots,
-            "status": t.status
+            "status": t.status,
+
+            # NEW
+            "assigned_staff_id" : t.assigned_staff_id,
+
+            # NEW
+            "assigned_staff_name" : t.staff.name if t.staff else None
+        })
+
+    return jsonify(result)
+
+@admin_bp.route("/recent-treks", methods=["GET"])
+@role_required("Admin")
+def get_recent_treks():
+
+    treks = Trek.query.order_by(Trek.id.desc()).limit(5).all()
+    
+    result = []
+
+    for t in treks:
+        result.append({
+            "id": t.id,
+            "name": t.name,
+            "location": t.location,
+            "difficulty": t.difficulty,
+            "duration": t.duration,
+            "slots": t.available_slots,
+            "status": t.status,
+
+            # NEW
+            "assigned_staff_id" : t.assigned_staff_id,
+
+            # NEW
+            "assigned_staff_name" : t.staff.name if t.staff else None
         })
 
     return jsonify(result)
@@ -142,9 +178,42 @@ def get_staff():
 
     return jsonify(result)
 
+@admin_bp.route("/dashboard-summary", methods=["GET"])
+@role_required("Admin")
+def dashboard_summary():
 
+    staff_role = Role.query.filter_by(name="Trek Staff").first()
 
+    return jsonify({
+        "total_treks": Trek.query.count(),
+        "total_users": User.query.count(),
+        "total_staff": User.query.filter_by(role_id=staff_role.id).count(),
+        "total_bookings": Booking.query.count()
+    })
 
+@admin_bp.route("/recent-bookings", methods=["GET"])
+@role_required("Admin")
+def recent_bookings():
+
+    bookings = (
+        Booking.query
+        .order_by(Booking.booking_date.desc())
+        .limit(5)
+        .all()
+    )
+
+    result = []
+
+    for booking in bookings:
+        result.append({
+            "id": booking.id,
+            "user": booking.user.name,
+            "trek": booking.trek.name,
+            "status": booking.status,
+            "booking_date": booking.booking_date.strftime("%Y-%m-%d")
+        })
+
+    return jsonify(result)
 
 
 

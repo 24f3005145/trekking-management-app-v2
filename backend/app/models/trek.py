@@ -30,7 +30,8 @@ class Trek(db.Model):
     )
 
     bookings = db.relationship(
-        "Booking",
-        backref="trek",
-        lazy=True
+    "Booking",
+    back_populates="trek",
+    lazy=True,
+    cascade="all, delete-orphan"
     )

@@ -1,0 +1,106 @@
+trekking-management-app-v2
+├── backend
+│   ├── app
+│   │   ├── models
+│   │   │   ├── __init__.py
+│   │   │   ├── booking.py
+│   │   │   ├── role.py
+│   │   │   ├── staff_profile.py
+│   │   │   ├── trek.py
+│   │   │   └── user.py
+│   │   ├── routes
+│   │   │   ├── __init__.py
+│   │   │   ├── admin.py
+│   │   │   ├── auth.py
+│   │   │   ├── dashboard.py
+│   │   │   ├── staff.py
+│   │   │   └── user.py
+│   │   ├── services
+│   │   ├── tasks
+│   │   │   ├── __init__.py
+│   │   │   ├── exports.py
+│   │   │   ├── reminders.py
+│   │   │   └── reports.py
+│   │   ├── utils
+│   │   │   └── decorators.py
+│   │   ├── __init__.py
+│   │   ├── celery_app.py
+│   │   ├── config.py
+│   │   └── extensions.py
+│   ├── instance
+│   │   └── tma.db
+│   ├── requirements.txt
+│   ├── run.py
+│   └── seed.py
+├── docs
+├── frontend
+│   ├── public
+│   │   └── favicon.ico
+│   ├── src
+│   │   ├── assets
+│   │   │   ├── css
+│   │   │   │   └── style.css
+│   │   │   └── images
+│   │   ├── components
+│   │   │   ├── admin
+│   │   │   │   ├── AssignStaffModal.vue
+│   │   │   │   ├── DeleteConfirmationModal.vue
+│   │   │   │   ├── QuickActions.vue
+│   │   │   │   ├── RecentBookingsTable.vue
+│   │   │   │   ├── RecentTreksTable.vue
+│   │   │   │   ├── StaffFormModal.vue
+│   │   │   │   ├── StaffTable.vue
+│   │   │   │   ├── StatCard.vue
+│   │   │   │   ├── TrekFilters.vue
+│   │   │   │   ├── TrekFormModal.vue
+│   │   │   │   └── TrekTable.vue
+│   │   │   ├── DashboardNavbar.vue
+│   │   │   ├── Footer.vue
+│   │   │   ├── PublicNavbar.vue
+│   │   │   └── Sidebar.vue
+│   │   ├── layouts
+│   │   │   ├── AuthLayout.vue
+│   │   │   └── MainLayout.vue
+│   │   ├── router
+│   │   │   └── index.js
+│   │   ├── services
+│   │   │   ├── adminService.js
+│   │   │   └── api.js
+│   │   ├── stores
+│   │   │   ├── auth.js
+│   │   │   └── counter.js
+│   │   ├── utils
+│   │   │   └── badgeUtils.js
+│   │   ├── views
+│   │   │   ├── admin
+│   │   │   │   ├── Dashboard.vue
+│   │   │   │   ├── Reports.vue
+│   │   │   │   ├── Staff.vue
+│   │   │   │   ├── Treks.vue
+│   │   │   │   └── Users.vue
+│   │   │   ├── staff
+│   │   │   │   └── Dashboard.vue
+│   │   │   ├── trekker
+│   │   │   │   └── Dashboard.vue
+│   │   │   ├── Landing.vue
+│   │   │   ├── Login.vue
+│   │   │   └── Register.vue
+│   │   ├── App.vue
+│   │   └── main.js
+│   ├── .editorconfig
+│   ├── .gitattributes
+│   ├── .gitignore
+│   ├── .oxlintrc.json
+│   ├── .prettierrc.json
+│   ├── eslint.config.js
+│   ├── index.html
+│   ├── jsconfig.json
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── README.md
+│   └── vite.config.js
+├── .gitignore
+├── generate_tree.py
+├── project_structure.txt
+├── project_tree.txt
+└── README.md

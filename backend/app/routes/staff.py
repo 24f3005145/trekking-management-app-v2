@@ -9,11 +9,48 @@ from app.utils.decorators import role_required
 
 staff_bp = Blueprint("staff", __name__)
 
+@staff_bp.route("/dashboard", methods=["GET"])
+@role_required("Trek Staff")
+def dashboard():
+
+    user_id = int(get_jwt_identity())
+
+    staff = User.query.get_or_404(user_id)
+
+    assigned_treks = Trek.query.filter_by(
+        assigned_staff_id=user_id
+    ).all()
+
+    total = len(assigned_treks)
+
+    upcoming = sum(
+        1 for trek in assigned_treks
+        if trek.status == "Upcoming"
+    )
+
+    completed = sum(
+        1 for trek in assigned_treks
+        if trek.status == "Completed"
+    )
+
+    pending = sum(
+        1 for trek in assigned_treks
+        if trek.status == "Pending"
+    )
+
+    return jsonify({
+        "staff": staff.name,
+        "assigned_treks": total,
+        "upcoming": upcoming,
+        "completed": completed,
+        "pending": pending
+    })
+
 @staff_bp.route("/treks", methods=["GET"])
 @role_required("Trek Staff")
 def assigned_treks():
 
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
 
     treks = Trek.query.filter_by(assigned_staff_id=user_id).all()
 
@@ -38,7 +75,7 @@ def update_slots(trek_id):
 
     trek = Trek.query.get_or_404(trek_id)
 
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
 
     if trek.assigned_staff_id != user_id:
         return jsonify({"message": "Not assigned to this trek"}), 403
@@ -57,7 +94,7 @@ def update_status(trek_id):
 
     trek = Trek.query.get_or_404(trek_id)
 
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
 
     if trek.assigned_staff_id != user_id:
         return jsonify({"message": "Not assigned to this trek"}), 403
@@ -74,7 +111,7 @@ def participants(trek_id):
 
     trek = Trek.query.get_or_404(trek_id)
 
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
 
     if trek.assigned_staff_id != user_id:
         return jsonify({"message": "Not assigned"}), 403
@@ -92,8 +129,36 @@ def participants(trek_id):
 
     return jsonify(result)
 
+@staff_bp.route("/trek/<int:trek_id>", methods=["GET"])
+@role_required("Trek Staff")
+def trek_details(trek_id):
 
+    trek = Trek.query.get_or_404(trek_id)
 
+    user_id = int(get_jwt_identity())
+
+    if trek.assigned_staff_id != user_id:
+        return jsonify({
+            "message": "Not assigned to this trek"
+        }), 403
+
+    return jsonify({
+        "id": trek.id,
+        "name": trek.name,
+        "location": trek.location,
+        "difficulty": trek.difficulty,
+        "duration": trek.duration,
+        "start_date": (
+            trek.start_date.isoformat()
+            if trek.start_date else None
+        ),
+        "end_date": (
+            trek.end_date.isoformat()
+            if trek.end_date else None
+        ),
+        "available_slots": trek.available_slots,
+        "status": trek.status
+    })
 
 
 
