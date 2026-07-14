@@ -1,93 +1,118 @@
 <template>
-
-<div class="card shadow-sm border-0">
-
+  <div class="card shadow-sm border-0">
     <div class="card-body">
 
-        <div class="d-flex justify-content-between align-items-center mb-3">
+      <!-- Card Header -->
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4 class="mb-0">
+          All Staff
+        </h4>
 
-            <h4 class="mb-0">
-                All Staff
-            </h4>
+        <small class="text-muted">
+          {{ staff.length }} Staff Member(s)
+        </small>
+      </div>
 
-            <small class="text-muted">
+      <!-- Staff Table -->
+      <div class="table-responsive">
+        <table class="table table-hover align-middle">
 
-                {{ staff.length }} Staff Member(s)
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Status</th>
+              <th width="220">Actions</th>
+            </tr>
+          </thead>
 
-            </small>
+          <tbody>
 
-        </div>
+            <tr
+              v-for="member in staff"
+              :key="member.id"
+            >
+              <td>{{ member.name }}</td>
 
-        <div class="table-responsive">
+              <td>{{ member.email }}</td>
 
-            <table class="table table-hover align-middle">
+              <td>{{ member.phone }}</td>
 
-                <thead>
+              <td>
+                <span
+                  class="badge"
+                  :class="
+                    member.is_active
+                      ? 'bg-success'
+                      : 'bg-danger'
+                  "
+                >
+                  {{ member.is_active ? "Active" : "Inactive" }}
+                </span>
+              </td>
 
-                    <tr>
+              <td>
 
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Phone</th>
+                <button
+                  class="btn btn-sm btn-outline-primary me-2"
+                  @click="$emit('view-treks', member)"
+                >
+                  View Treks
+                </button>
 
-                    </tr>
+                <button
+                  class="btn btn-sm"
+                  :class="
+                    member.is_active
+                      ? 'btn-outline-danger'
+                      : 'btn-outline-success'
+                  "
+                  @click="$emit('toggle-status', member)"
+                >
+                  {{ member.is_active ? "Deactivate" : "Activate" }}
+                </button>
 
-                </thead>
+              </td>
+            </tr>
 
-                <tbody>
+            <!-- Empty State -->
+            <tr v-if="staff.length === 0">
+              <td
+                colspan="5"
+                class="text-center text-muted"
+              >
+                No staff found.
+              </td>
+            </tr>
 
-                    <tr
-                        v-for="member in staff"
-                        :key="member.id"
-                    >
+          </tbody>
 
-                        <td>{{ member.name }}</td>
-
-                        <td>{{ member.email }}</td>
-
-                        <td>{{ member.phone }}</td>
-
-                    </tr>
-
-                    <tr
-                        v-if="staff.length===0"
-                    >
-
-                        <td
-                            colspan="3"
-                            class="text-center text-muted"
-                        >
-
-                            No staff found.
-
-                        </td>
-
-                    </tr>
-
-                </tbody>
-
-            </table>
-
-        </div>
+        </table>
+      </div>
 
     </div>
-
-</div>
-
+  </div>
 </template>
 
 <script setup>
+// =========================================================
+// Component Props
+// =========================================================
 
 defineProps({
-
-    staff: {
-
-        type: Array,
-
-        default: () => []
-
-    }
-
+  staff: {
+    type: Array,
+    default: () => []
+  }
 })
 
+// =========================================================
+// Component Emits
+// =========================================================
+
+defineEmits([
+  "toggle-status",
+  "view-treks"
+])
 </script>

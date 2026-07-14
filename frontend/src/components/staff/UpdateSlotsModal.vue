@@ -8,6 +8,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
 
+        <!-- Modal Header -->
         <div class="modal-header">
           <h5 class="modal-title">
             Update Available Slots
@@ -19,6 +20,7 @@
           ></button>
         </div>
 
+        <!-- Modal Body -->
         <div class="modal-body">
 
           <label class="form-label">
@@ -34,6 +36,7 @@
 
         </div>
 
+        <!-- Modal Footer -->
         <div class="modal-footer">
 
           <button
@@ -59,7 +62,15 @@
 </template>
 
 <script setup>
+// =========================================================
+// Imports
+// =========================================================
+
 import { ref, watch } from "vue"
+
+// =========================================================
+// Component Props
+// =========================================================
 
 const props = defineProps({
   show: Boolean,
@@ -67,15 +78,33 @@ const props = defineProps({
   currentSlots: Number
 })
 
-defineEmits(["save", "close"])
+// =========================================================
+// Component Emits
+// =========================================================
+
+defineEmits([
+  "save",
+  "close"
+])
+
+// =========================================================
+// Reactive State
+// =========================================================
 
 const slots = ref(0)
 
+// =========================================================
+// Watchers
+// =========================================================
+
+// Initialize the input with the current number of available slots.
 watch(
   () => props.currentSlots,
   (value) => {
     slots.value = value ?? 0
   },
-  { immediate: true }
+  {
+    immediate: true
+  }
 )
 </script>

@@ -127,14 +127,17 @@
 <script setup>
 
 import { ref, onMounted } from "vue"
-import { useRoute, RouterLink } from "vue-router"
+import { useRoute, useRouter, RouterLink } from "vue-router"
 
 import staffService from "@/services/staffService"
 
 import UpdateStatusModal from "@/components/staff/UpdateStatusModal.vue"
 import UpdateSlotsModal from "@/components/staff/UpdateSlotsModal.vue"
 
+import { useToastStore } from "@/stores/toast"             // Toast
+
 const route = useRoute()
+const router = useRouter()
 
 const trek = ref({})
 const loading = ref(true)
@@ -144,6 +147,8 @@ const showSlotsModal = ref(false)
 
 const statusLoading = ref(false)
 const slotsLoading = ref(false)
+
+const toast = useToastStore()
 
 async function loadTrek() {
 
@@ -157,6 +162,36 @@ async function loadTrek() {
 
     console.error(error)
 
+    if (error.response?.status === 403) {
+
+      toast.trigger(
+        "You are not authorized to manage this trek.",
+        "error"
+      )
+
+      router.push("/dashboard/staff/treks")
+
+    }
+
+    else if (error.response?.status === 404) {
+
+      toast.trigger(
+        "Trek not found.",
+        "error"
+      )
+
+      router.push("/dashboard/staff/treks")
+
+    }
+
+    else {
+
+      toast.trigger(
+        "Unable to load trek details.",
+        "error"
+      )
+
+    }
   }
 
   finally {
@@ -181,11 +216,20 @@ async function updateStatus(status) {
 
     await loadTrek()
 
+    toast.trigger(
+        "Trek status updated.",
+        "success"
+    )
+
   }
 
   catch (error) {
 
     console.error(error)
+    toast.trigger(
+        "Unable to update trek status.",
+        "error"
+    )
 
   }
 
@@ -211,11 +255,20 @@ async function updateSlots(slots) {
 
     await loadTrek()
 
+    toast.trigger(
+        "Available slots updated.",
+        "success"
+    )
+
   }
 
   catch (error) {
 
     console.error(error)
+    toast.trigger(
+        "Unable to update slots.",
+        "error"
+    )
 
   }
 

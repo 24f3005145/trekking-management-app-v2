@@ -22,7 +22,7 @@ style="width:250px;">
         <RouterLink
             to="/dashboard/admin"
             class="nav-link text-white">
-            Dashboard
+            📊 Dashboard
         </RouterLink>
         </li>
 
@@ -30,7 +30,7 @@ style="width:250px;">
         <RouterLink
             to="/dashboard/admin/treks"
             class="nav-link text-white">
-            Treks
+            🥾 Manage Treks
         </RouterLink>
         </li>
 
@@ -38,8 +38,16 @@ style="width:250px;">
         <RouterLink
             to="/dashboard/admin/staff"
             class="nav-link text-white">
-            Staff
+            👨‍💼 Manage Staff
         </RouterLink>
+        </li>
+
+        <li class="nav-item mb-2">
+            <RouterLink
+                to="/dashboard/admin/users"
+                class="nav-link text-white">
+                👥 Manage Users
+            </RouterLink>
         </li>
 
     </template>
@@ -64,6 +72,38 @@ style="width:250px;">
                 class="nav-link text-white">
                 My Treks
             </RouterLink>
+            </li>
+
+        </template>
+        
+        <!-- ========================= -->
+        <!-- Trekker Menu -->
+        <!-- ========================= -->
+
+        <template v-else-if="role === 'Trekker'">
+
+            <li class="nav-item mb-2">
+                <RouterLink
+                    to="/dashboard/trekker"
+                    class="nav-link text-white">
+                    Explore Treks
+                </RouterLink>
+            </li>
+
+            <li class="nav-item mb-2">
+                <RouterLink
+                    to="/dashboard/trekker/bookings"
+                    class="nav-link text-white">
+                    My Bookings
+                </RouterLink>
+            </li>
+
+            <li class="nav-item mb-2">
+                <RouterLink
+                    to="/dashboard/trekker/profile"
+                    class="nav-link text-white">
+                    My Profile
+                </RouterLink>
             </li>
 
         </template>

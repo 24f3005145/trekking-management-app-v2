@@ -1,36 +1,46 @@
 <template>
-
-<div class="card shadow-sm border-0">
-
+  <div class="card shadow-sm border-0">
     <div class="card-body">
 
-        <h4 class="mb-4">
+      <!-- Card Heading -->
+      <h4 class="mb-4">
+        Quick Actions
+      </h4>
 
-            Quick Actions
+      <!-- Quick Action Buttons -->
+      <div class="d-flex gap-3 flex-wrap">
 
-        </h4>
+        <RouterLink
+          to="/dashboard/admin/treks?add=true"
+          class="btn btn-success"
+        >
+          Add Trek
+        </RouterLink>
 
-        <div class="d-flex gap-3 flex-wrap">
+        <RouterLink
+          to="/dashboard/admin/staff?add=true"
+          class="btn btn-primary"
+        >
+          Add Staff
+        </RouterLink>
 
-            <button class="btn btn-success">
-                Add Trek
-            </button>
+        <RouterLink
+          to="/dashboard/admin/reports"
+          class="btn btn-warning"
+        >
+          View Reports
+        </RouterLink>
 
-            <button class="btn btn-primary">
-                Add Staff
-            </button>
-
-            <button class="btn btn-warning">
-                View Reports
-            </button>
-
-        </div>
+      </div>
 
     </div>
-
-</div>
-
+  </div>
 </template>
 
 <script setup>
+// =========================================================
+// Imports
+// =========================================================
+
+import { RouterLink } from "vue-router"
 </script>

@@ -4,6 +4,7 @@ trekking-management-app-v2
 │   │   ├── models
 │   │   │   ├── __init__.py
 │   │   │   ├── booking.py
+│   │   │   ├── export_job.py
 │   │   │   ├── role.py
 │   │   │   ├── staff_profile.py
 │   │   │   ├── trek.py
@@ -13,9 +14,12 @@ trekking-management-app-v2
 │   │   │   ├── admin.py
 │   │   │   ├── auth.py
 │   │   │   ├── dashboard.py
+│   │   │   ├── mail.py
 │   │   │   ├── staff.py
 │   │   │   └── user.py
 │   │   ├── services
+│   │   │   ├── export_service.py
+│   │   │   └── mail_service.py
 │   │   ├── tasks
 │   │   │   ├── __init__.py
 │   │   │   ├── exports.py
@@ -25,10 +29,16 @@ trekking-management-app-v2
 │   │   │   └── decorators.py
 │   │   ├── __init__.py
 │   │   ├── celery_app.py
+│   │   ├── celery_tasks.py
 │   │   ├── config.py
 │   │   └── extensions.py
+│   ├── exports
+│   │   ├── bookings_user_7_20260712_093657.csv
+│   │   └── bookings_user_7_20260712_100922.csv
 │   ├── instance
 │   │   └── tma.db
+│   ├── celerybeat-schedule
+│   ├── oldseed.py
 │   ├── requirements.txt
 │   ├── run.py
 │   └── seed.py
@@ -41,12 +51,44 @@ trekking-management-app-v2
 │   │   │   ├── css
 │   │   │   │   └── style.css
 │   │   │   └── images
+│   │   │       ├── gallery
+│   │   │       │   ├── gallery1.jpg
+│   │   │       │   ├── gallery2.jpg
+│   │   │       │   ├── gallery3.jpg
+│   │   │       │   ├── gallery4.jpg
+│   │   │       │   ├── gallery5.jpg
+│   │   │       │   └── gallery6.jpg
+│   │   │       └── hero-banner.jpg
 │   │   ├── components
 │   │   │   ├── admin
+│   │   │   │   ├── AssignStaffModal.vue
+│   │   │   │   ├── DeleteConfirmationModal.vue
 │   │   │   │   ├── QuickActions.vue
 │   │   │   │   ├── RecentBookingsTable.vue
 │   │   │   │   ├── RecentTreksTable.vue
-│   │   │   │   └── StatCard.vue
+│   │   │   │   ├── StaffFormModal.vue
+│   │   │   │   ├── StaffTable.vue
+│   │   │   │   ├── StaffTreksModal.vue
+│   │   │   │   ├── StatCard.vue
+│   │   │   │   ├── TrekFilters.vue
+│   │   │   │   ├── TrekFormModal.vue
+│   │   │   │   └── TrekTable.vue
+│   │   │   ├── common
+│   │   │   │   └── AppToast.vue
+│   │   │   ├── staff
+│   │   │   │   ├── AssignedTreksTable.vue
+│   │   │   │   ├── ParticipantsTable.vue
+│   │   │   │   ├── UpdateSlotsModal.vue
+│   │   │   │   └── UpdateStatusModal.vue
+│   │   │   ├── trekker
+│   │   │   │   ├── AdventureGallery.vue
+│   │   │   │   ├── FeaturedTreks.vue
+│   │   │   │   ├── HeroSection.vue
+│   │   │   │   ├── SearchFilters.vue
+│   │   │   │   ├── Statistics.vue
+│   │   │   │   ├── Testimonials.vue
+│   │   │   │   ├── TrekCard.vue
+│   │   │   │   └── WhyChooseUs.vue
 │   │   │   ├── DashboardNavbar.vue
 │   │   │   ├── Footer.vue
 │   │   │   ├── PublicNavbar.vue
@@ -58,10 +100,15 @@ trekking-management-app-v2
 │   │   │   └── index.js
 │   │   ├── services
 │   │   │   ├── adminService.js
-│   │   │   └── api.js
+│   │   │   ├── api.js
+│   │   │   ├── staffService.js
+│   │   │   └── trekkerService.js
 │   │   ├── stores
 │   │   │   ├── auth.js
-│   │   │   └── counter.js
+│   │   │   ├── counter.js
+│   │   │   └── toast.js
+│   │   ├── utils
+│   │   │   └── badgeUtils.js
 │   │   ├── views
 │   │   │   ├── admin
 │   │   │   │   ├── Dashboard.vue
@@ -70,9 +117,15 @@ trekking-management-app-v2
 │   │   │   │   ├── Treks.vue
 │   │   │   │   └── Users.vue
 │   │   │   ├── staff
-│   │   │   │   └── Dashboard.vue
+│   │   │   │   ├── Dashboard.vue
+│   │   │   │   ├── Participants.vue
+│   │   │   │   ├── TrekDetails.vue
+│   │   │   │   └── Treks.vue
 │   │   │   ├── trekker
-│   │   │   │   └── Dashboard.vue
+│   │   │   │   ├── Dashboard.vue
+│   │   │   │   ├── MyBookings.vue
+│   │   │   │   ├── Profile.vue
+│   │   │   │   └── TrekDetails.vue
 │   │   │   ├── Landing.vue
 │   │   │   ├── Login.vue
 │   │   │   └── Register.vue
@@ -92,5 +145,11 @@ trekking-management-app-v2
 │   └── vite.config.js
 ├── .gitignore
 ├── generate_tree.py
+├── project_structure.txt
+├── project_structure_new.txt
+├── project_structure_new_1.txt
+├── project_structure_new_3.txt
+├── project_structure_new_4.txt
+├── project_structure_new_5.txt
 ├── project_tree.txt
 └── README.md

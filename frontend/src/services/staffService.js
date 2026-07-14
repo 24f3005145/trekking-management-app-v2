@@ -27,6 +27,34 @@ export default {
   async updateSlots(id, data) {
     const response = await api.put(`/staff/trek/${id}/slots`, data);
     return response.data;
+  },
+  
+  async updateBookingStatus(bookingId, status) {
+
+    const response = await api.put(
+
+      `/staff/booking/${bookingId}/status`,
+
+      {
+        status
+      }
+
+    )
+
+    return response.data
+
+  },
+  
+  async removeParticipant(bookingId) {
+
+    const response = await api.delete(
+
+      `/staff/booking/${bookingId}`
+
+    )
+
+    return response.data
+
   }
 
 };

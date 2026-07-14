@@ -14,7 +14,7 @@ IGNORE_DIRS = {
 }
 
 IGNORE_FILES = {
-    ".DS_Store"p
+    ".DS_Store"
 }
 
 
@@ -25,7 +25,6 @@ def tree(directory: Path, prefix=""):
          and e.name not in IGNORE_FILES],
         key=lambda x: (x.is_file(), x.name.lower())
     )
-
     lines = []
 
     for index, entry in enumerate(entries):
@@ -45,7 +44,7 @@ root = Path.cwd()
 output = [root.name]
 output.extend(tree(root))
 
-with open("project_structure_new.txt", "w", encoding="utf-8") as f:
+with open("project_structure_new_6.txt", "w", encoding="utf-8") as f:
     f.write("\n".join(output))
 
-print("project_structure.txt generated successfully.")
+print("project_structure_new_6.txt generated successfully.")

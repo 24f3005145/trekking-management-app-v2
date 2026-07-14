@@ -8,6 +8,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
 
+        <!-- Modal Header -->
         <div class="modal-header">
           <h5 class="modal-title">
             Update Trek Status
@@ -19,21 +20,26 @@
           ></button>
         </div>
 
+        <!-- Modal Body -->
         <div class="modal-body">
 
-          <label class="form-label">Status</label>
+          <label class="form-label">
+            Status
+          </label>
 
           <select
             v-model="status"
             class="form-select"
           >
             <option>Pending</option>
+            <option>Open</option>
             <option>Upcoming</option>
             <option>Completed</option>
           </select>
 
         </div>
 
+        <!-- Modal Footer -->
         <div class="modal-footer">
 
           <button
@@ -59,7 +65,15 @@
 </template>
 
 <script setup>
+// =========================================================
+// Imports
+// =========================================================
+
 import { ref, watch } from "vue"
+
+// =========================================================
+// Component Props
+// =========================================================
 
 const props = defineProps({
   show: Boolean,
@@ -67,15 +81,34 @@ const props = defineProps({
   currentStatus: String
 })
 
-defineEmits(["save", "close"])
+// =========================================================
+// Component Emits
+// =========================================================
+
+defineEmits([
+  "save",
+  "close"
+])
+
+// =========================================================
+// Reactive State
+// =========================================================
 
 const status = ref("Pending")
 
+// =========================================================
+// Watchers
+// =========================================================
+
+// Initialize the selected status with the current trek status.
 watch(
   () => props.currentStatus,
   (value) => {
     status.value = value || "Pending"
   },
-  { immediate: true }
+  {
+    immediate: true
+  }
 )
 </script>
+

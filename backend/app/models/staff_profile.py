@@ -16,10 +16,5 @@ class StaffProfile(db.Model):
     contact_details = db.Column(db.String(200))
     status = db.Column(db.String(50), default="Active")
 
-    user = db.relationship(
-        "User",
-        backref=db.backref(
-            "staff_profile",
-            uselist=False
-        )
-    )
+    # Relationships
+    user = db.relationship("User", backref=db.backref("staff_profile", uselist=False))

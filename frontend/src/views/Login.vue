@@ -99,14 +99,6 @@
 
           </p>
 
-          <div
-            v-if="error"
-            class="alert alert-danger mt-3">
-
-            {{ error }}
-
-          </div>
-
         </div>
 
       </div>
@@ -118,23 +110,29 @@
 
 <script setup>
 
-import { ref } from 'vue'
+
+
+import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 
 import api from '@/services/api'
 import { useAuthStore } from '@/stores/auth'
 
+import { useToastStore } from "@/stores/toast"           // Toast
+
 const router = useRouter()
 
 const auth = useAuthStore()
 
+const toast = useToastStore()              // Toast
+
 const email = ref("")
 const password = ref("")
-const error = ref("")
+
+//const error = ref("")              // used Toast instead
 
 async function login(){
 
-    error.value=""
 
     try{
 
@@ -175,12 +173,40 @@ async function login(){
 
     }
 
-    catch(err){
+    catch (err) {
 
-        error.value="Invalid email or password."
+      password.value = ""
 
+      toast.trigger(
+
+          err.response?.data?.message ||
+
+          "Invalid email or password.",
+
+          "error"
+
+      )
     }
 
 }
+
+onMounted(() => {
+
+    const message = sessionStorage.getItem("toastMessage")
+    const type = sessionStorage.getItem("toastType")
+
+    if (message) {
+
+        toast.trigger(
+            message,
+            type || "error"
+        )
+
+        sessionStorage.removeItem("toastMessage")
+        sessionStorage.removeItem("toastType")
+
+    }
+
+})
 
 </script>

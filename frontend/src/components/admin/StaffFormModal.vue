@@ -1,171 +1,156 @@
 <template>
-
-<div
+  <div
     v-if="show"
     class="modal fade show d-block"
     tabindex="-1"
-    style="background:rgba(0,0,0,.5)"
->
-
+    style="background: rgba(0,0,0,.5)"
+  >
     <div class="modal-dialog">
+      <div class="modal-content">
 
-        <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h5 class="modal-title">
+            Add Staff
+          </h5>
 
-            <div class="modal-header">
+          <button
+            class="btn-close"
+            @click="$emit('close')"
+          ></button>
+        </div>
 
-                <h5 class="modal-title">
+        <!-- Modal Body -->
+        <div class="modal-body">
 
-                    Add Staff
+          <div class="mb-3">
+            <label class="form-label">
+              Name
+            </label>
 
-                </h5>
+            <input
+              v-model="form.name"
+              class="form-control"
+            >
+          </div>
 
-                <button
-                    class="btn-close"
-                    @click="$emit('close')"
-                ></button>
+          <div class="mb-3">
+            <label class="form-label">
+              Email
+            </label>
 
-            </div>
+            <input
+              v-model="form.email"
+              type="email"
+              class="form-control"
+            >
+          </div>
 
-            <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label">
+              Phone
+            </label>
 
-                <div class="mb-3">
+            <input
+              v-model="form.phone"
+              class="form-control"
+            >
+          </div>
 
-                    <label class="form-label">
-                        Name
-                    </label>
+          <div class="mb-3">
+            <label class="form-label">
+              Password
+            </label>
 
-                    <input
-                        v-model="form.name"
-                        class="form-control"
-                    >
-
-                </div>
-
-                <div class="mb-3">
-
-                    <label class="form-label">
-                        Email
-                    </label>
-
-                    <input
-                        v-model="form.email"
-                        type="email"
-                        class="form-control"
-                    >
-
-                </div>
-
-                <div class="mb-3">
-
-                    <label class="form-label">
-                        Phone
-                    </label>
-
-                    <input
-                        v-model="form.phone"
-                        class="form-control"
-                    >
-
-                </div>
-
-                <div class="mb-3">
-
-                    <label class="form-label">
-                        Password
-                    </label>
-
-                    <input
-                        v-model="form.password"
-                        type="password"
-                        class="form-control"
-                    >
-
-                </div>
-
-            </div>
-
-            <div class="modal-footer">
-
-                <button
-                    class="btn btn-secondary"
-                    @click="$emit('close')"
-                >
-
-                    Cancel
-
-                </button>
-
-                <button
-                    class="btn btn-success"
-                    @click="save"
-                    :disabled="loading"
-                >
-
-                    {{ loading ? "Creating..." : "Create Staff" }}
-
-                </button>
-
-            </div>
+            <input
+              v-model="form.password"
+              type="password"
+              class="form-control"
+            >
+          </div>
 
         </div>
 
+        <!-- Modal Footer -->
+        <div class="modal-footer">
+          <button
+            class="btn btn-secondary"
+            @click="$emit('close')"
+          >
+            Cancel
+          </button>
+
+          <button
+            class="btn btn-success"
+            :disabled="loading"
+            @click="save"
+          >
+            {{ loading ? "Creating..." : "Create Staff" }}
+          </button>
+        </div>
+
+      </div>
     </div>
-
-</div>
-
+  </div>
 </template>
 
 <script setup>
+// =========================================================
+// Imports
+// =========================================================
 
 import { reactive } from "vue"
 
-// NEW
+// =========================================================
+// Component Props
+// =========================================================
+
 defineProps({
-
-    show: Boolean,
-
-    loading: Boolean
-
+  show: Boolean,
+  loading: Boolean
 })
+
+// =========================================================
+// Component Emits
+// =========================================================
 
 const emit = defineEmits([
-    "save",
-    "close"
+  "save",
+  "close"
 ])
 
+// =========================================================
+// Reactive State
+// =========================================================
+
 const form = reactive({
-
-    name: "",
-
-    email: "",
-
-    phone: "",
-
-    password: ""
-
+  name: "",
+  email: "",
+  phone: "",
+  password: ""
 })
 
-// NEW
+// =========================================================
+// Helper Functions
+// =========================================================
+
+// Reset the form after a successful save.
 function resetForm() {
-
-    form.name = ""
-    form.email = ""
-    form.phone = ""
-    form.password = ""
-
+  form.name = ""
+  form.email = ""
+  form.phone = ""
+  form.password = ""
 }
+
+// =========================================================
+// Methods
+// =========================================================
 
 function save() {
+  emit("save", {
+    ...form
+  })
 
-    emit(
-        "save",
-        {
-            ...form
-        }
-    )
-
-    resetForm()
-
+  resetForm()
 }
-
 </script>

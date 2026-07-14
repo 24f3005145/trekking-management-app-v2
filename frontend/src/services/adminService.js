@@ -54,6 +54,35 @@ export async function createStaff(data) {
 
 }
 
+// Activate or Deactivate Staff
+export async function updateStaffStatus(staffId, isActive) {
+
+    const response = await api.put(
+
+        `/admin/staff/${staffId}/status`,
+
+        {
+            is_active: isActive
+        }
+
+    )
+
+    return response.data
+
+}
+
+// Get Treks Assigned To Staff
+export async function getStaffTreks(staffId) {
+
+    const response = await api.get(
+        `/admin/staff/${staffId}/treks`
+
+    )
+
+    return response.data
+
+}
+
 // NEW: Assign staff to a trek
 export async function assignStaff(trekId, staffId) {
 
@@ -63,6 +92,48 @@ export async function assignStaff(trekId, staffId) {
             staff_id: staffId
         }
     )
+
+    return response.data
+
+}
+
+// ----------------------------------------------------
+// Users
+// ----------------------------------------------------
+
+export async function getUsers(params = {}) {
+
+    const response = await api.get("/admin/users", {
+        params
+    })
+
+    return response.data
+
+}
+
+export async function updateUserStatus(userId, isActive) {
+
+    const response = await api.put(
+
+        `/admin/users/${userId}/status`,
+
+        {
+            is_active: isActive
+        }
+
+    )
+
+    return response.data
+
+}
+
+// ----------------------------------------------------
+// Reports
+// ----------------------------------------------------
+
+export async function getReports() {
+
+    const response = await api.get("/admin/reports")
 
     return response.data
 

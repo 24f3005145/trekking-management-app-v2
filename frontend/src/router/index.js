@@ -14,6 +14,8 @@ import MainLayout from '@/layouts/MainLayout.vue'
 // Admin
 import AdminDashboard from '@/views/admin/Dashboard.vue'
 import Treks from '@/views/admin/Treks.vue'
+import Users from '@/views/admin/Users.vue'
+import Reports from '@/views/admin/Reports.vue'
 
 // Staff
 import StaffDashboard from '@/views/staff/Dashboard.vue'
@@ -24,6 +26,10 @@ import Participants from '@/views/staff/Participants.vue'
 
 // Trekker
 import TrekkerDashboard from '@/views/trekker/Dashboard.vue'
+import TrekkerTrekDetails from '@/views/trekker/TrekDetails.vue'
+import MyBookings from '@/views/trekker/MyBookings.vue'
+import Profile from '@/views/trekker/Profile.vue'
+
 
 const routes = [
     {
@@ -79,6 +85,26 @@ const routes = [
                 }
             },
             {
+                path: 'admin/users',
+                name: 'AdminUsers',
+                component: Users,
+
+                meta: {
+                    requiresAuth: true,
+                    role: "Admin"
+                }
+            },
+            {
+                path: 'admin/reports',
+                name: 'AdminReports',
+                component: Reports,
+
+                meta: {
+                    requiresAuth: true,
+                    role: "Admin"
+                }
+            },
+            {
                 path: 'staff',
                 name: 'StaffDashboard',
                 component: StaffDashboard,
@@ -120,11 +146,51 @@ const routes = [
                 }
             },
             {
+                path: 'staff/profile',
+                name: 'StaffProfile',
+                component: Profile,
+
+                meta: {
+                    requiresAuth: true,
+                    role: "Trek Staff"
+                }
+            },
+            {
                 path: 'trekker',
                 name: 'TrekkerDashboard',
                 component: TrekkerDashboard,
 
                 // NEW
+                meta: {
+                    requiresAuth: true,
+                    role: "Trekker"
+                }
+            },
+            {
+                path: 'trekker/treks/:id',
+                name: 'TrekkerTrekDetails',
+                component: TrekkerTrekDetails,
+
+                meta: {
+                    requiresAuth: true,
+                    role: "Trekker"
+                }
+            },
+            {
+                path: 'trekker/bookings',
+                name: 'MyBookings',
+                component: MyBookings,
+
+                meta: {
+                    requiresAuth: true,
+                    role: "Trekker"
+                }
+            },
+            {
+                path: 'trekker/profile',
+                name: 'TrekkerProfile',
+                component: Profile,
+
                 meta: {
                     requiresAuth: true,
                     role: "Trekker"

@@ -13,25 +13,14 @@ class User(db.Model):
     phone = db.Column(db.String(20))
     is_active = db.Column(db.Boolean, default=True)
 
-    role_id = db.Column(
-        db.Integer,
-        db.ForeignKey("roles.id"),
-        nullable=False
-    )
+    role_id = db.Column(db.Integer, db.ForeignKey("roles.id"), nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
-    created_at = db.Column(
-        db.DateTime,
-        default=datetime.utcnow
-    )
-
-    assigned_treks = db.relationship(
-        "Trek",
-        backref="staff",
-        lazy=True
-    )
-
+    # Relationships
+    assigned_treks = db.relationship("Trek", backref="staff", lazy=True)
     bookings = db.relationship("Booking", back_populates="user", cascade="all, delete-orphan")
 
+    # getter and setter
     def set_password(self, password):
         self.password = generate_password_hash(password)
 

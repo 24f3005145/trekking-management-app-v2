@@ -11,27 +11,16 @@ class Trek(db.Model):
     difficulty = db.Column(db.String(30))
     duration = db.Column(db.Integer)
 
-    available_slots = db.Column(
-        db.Integer,
-        default=0
-    )
+    description = db.Column(db.Text)                        # Trek description shown on the Trek Details page.
 
-    status = db.Column(
-        db.String(30),
-        default="Pending"
-    )
+    available_slots = db.Column(db.Integer, default=0)
+
+    status = db.Column(db.String(30), default="Pending")
 
     start_date = db.Column(db.Date)
     end_date = db.Column(db.Date)
 
-    assigned_staff_id = db.Column(
-        db.Integer,
-        db.ForeignKey("users.id")
-    )
+    assigned_staff_id = db.Column(db.Integer, db.ForeignKey("users.id"))
 
-    bookings = db.relationship(
-    "Booking",
-    back_populates="trek",
-    lazy=True,
-    cascade="all, delete-orphan"
-    )
+    # Relationships
+    bookings = db.relationship("Booking", back_populates="trek", lazy=True, cascade="all, delete-orphan")

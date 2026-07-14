@@ -18,16 +18,6 @@
 
         </div>
 
-        <div
-            v-if="alert.show"
-            class="alert mt-3"
-            :class="`alert-${alert.type}`"
-        >
-
-            {{ alert.message }}
-
-        </div>
-
         <TrekFilters
             v-model:search="search"
             v-model:difficulty="difficulty"
@@ -91,7 +81,10 @@
 // Supports CRUD operations, filtering and staff assignment.
 // =====================================================
 
-import { ref, onMounted, computed } from "vue"
+import { ref, onMounted, computed, watch } from "vue"
+
+import { useRoute } from "vue-router"
+const route = useRoute()
 
 // =====================================================
 // Components
@@ -116,12 +109,16 @@ import {
     assignStaff
 } from "@/services/adminService"
 
+import { useToastStore } from "@/stores/toast"              // Toast
+
 // =====================================================
 // Data
 // =====================================================
 
 const treks = ref([])
 const staff = ref([])
+
+const toast = useToastStore()                     // Toast
 
 // =====================================================
 // Filters
@@ -155,16 +152,6 @@ const loading = ref(false)
 const deleteLoading = ref(false)
 
 // =====================================================
-// Alert State
-// =====================================================
-
-const alert = ref({
-    show: false,
-    type: "",
-    message: ""
-})
-
-// =====================================================
 // Data Loaders
 // =====================================================
 
@@ -185,25 +172,6 @@ async function loadTreks() {
 
 }
 
-// =====================================================
-// Utility Functions
-// =====================================================
-
-function showAlert(type, message) {
-
-    alert.value = {
-        show: true,
-        type,
-        message
-    }
-
-    setTimeout(() => {
-
-        alert.value.show = false
-
-    }, 3000)
-
-}
 
 // =====================================================
 // Modal Handlers
@@ -274,11 +242,14 @@ async function saveTrek(data) {
 
         await loadTreks()
 
-        showAlert(
-            "success",
+        toast.trigger(
+
             isEdit.value
                 ? "Trek updated successfully."
-                : "Trek created successfully."
+                : "Trek created successfully.",
+
+            "success"
+
         )
 
     }
@@ -287,9 +258,12 @@ async function saveTrek(data) {
 
         console.error(error)
 
-        showAlert(
-            "danger",
-            "Something went wrong."
+        toast.trigger(
+
+            "Something went wrong.",
+
+            "error"
+
         )
 
     }
@@ -314,9 +288,12 @@ async function confirmDeleteTrek() {
 
         await loadTreks()
 
-        showAlert(
-            "success",
-            "Trek deleted successfully."
+        toast.trigger(
+
+            "Trek deleted successfully.",
+
+            "success"
+
         )
 
     }
@@ -325,9 +302,12 @@ async function confirmDeleteTrek() {
 
         console.error(error)
 
-        showAlert(
-            "danger",
-            "Failed to delete trek."
+        toast.trigger(
+
+            "Failed to delete trek.",
+
+            "error"
+
         )
 
     }
@@ -359,11 +339,27 @@ async function handleAssignStaff(staffId) {
 
         await loadTreks()
 
+        toast.trigger(
+
+            "Staff assigned successfully.",
+
+            "success"
+
+        )
+
     }
 
     catch (error) {
 
         console.error(error)
+
+        toast.trigger(
+
+            "Unable to assign staff.",
+
+            "error"
+
+        )
 
     }
 
@@ -402,6 +398,25 @@ const filteredTreks = computed(() => {
 // =====================================================
 // Lifecycle Hooks
 // =====================================================
+
+// for quick actions buttons 
+watch(
+    () => route.query.add,
+    (value) => {
+
+        if (value === "true") {
+
+            isEdit.value = false
+
+            selectedTrek.value = null
+
+            showModal.value = true
+
+        }
+
+    },
+    { immediate: true }
+)
 
 onMounted(loadTreks)
 

@@ -1,8 +1,13 @@
-
-
-
 <template>
-  <router-view />
+
+    <router-view />
+
+    <AppToast />
+
 </template>
 
-<script setup></script>
+<script setup>
+
+import AppToast from "@/components/common/AppToast.vue"
+
+</script>
